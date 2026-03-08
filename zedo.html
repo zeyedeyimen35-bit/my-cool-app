@@ -1,0 +1,165 @@
+html
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBUMMC | Universal Student Union Portal</title>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
+    <style>
+        :root {
+            --dbu-blue: #003366; --cbe-purple: #702082; --gold: #ffcc00; --wine: #800020; --white: #ffffff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background: #f4f7f6; overflow-x: hidden; }
+
+        /* --- AUTH SCREEN --- */
+        #auth-overlay {
+            height: 100vh; width: 100%; position: fixed; top: 0; z-index: 5000;
+            background: linear-gradient(rgba(0,51,102,0.85), rgba(112,32,130,0.85)), url('https://www.dbu.edu.et');
+            background-size: cover; display: flex; justify-content: center; align-items: center;
+        }
+        .auth-card {
+            background: white; padding: 30px; border-radius: 25px; width: 95%; max-width: 500px; 
+            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.5); border-top: 10px solid var(--cbe-purple);
+        }
+        input, select { width: 100%; padding: 12px; border-radius: 8px; border: 1.5px solid #ddd; outline: none; margin-bottom: 10px; }
+        .btn-action { background: var(--cbe-purple); color: white; width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+
+        /* --- MAIN DASHBOARD (ዘየደ የፈለገው ገጽታ) --- */
+        #main-dashboard { display: none; }
+        header { background: white; padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 5px solid var(--dbu-blue); position: sticky; top: 0; z-index: 1000; }
+        .container { max-width: 1400px; margin: auto; padding: 20px; }
+        
+        .corridor { background: white; border-radius: 20px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .title-line { border-left: 8px solid var(--cbe-purple); padding-left: 15px; color: var(--dbu-blue); font-weight: bold; margin-bottom: 20px; }
+
+        /* --- NEXT WINDOW: PARTNER NETWORK (ተደራቢ መስኮት) --- */
+        #network-window {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.98); z-index: 4000; overflow-y: auto; padding: 50px 5%;
+        }
+        .network-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 30px; }
+        .network-card { background: #fff; border: 2px solid #eee; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .btn-close-net { position: absolute; top: 20px; right: 20px; background: var(--wine); color: white; border: none; padding: 10px 20px; border-radius: 50px; cursor: pointer; }
+
+        /* Footer (CBE Style) */
+        footer { background: var(--cbe-purple); color: white; padding: 60px 8%; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <!-- AUTH OVERLAY -->
+    <div id="auth-overlay">
+        <div class="auth-card">
+            <div style="width:60px; height:60px; background:var(--dbu-blue); border-radius:50%; margin:0 auto 15px; border:2px solid var(--gold); color:var(--gold); display:flex; justify-content:center; align-items:center; font-weight:bold;">DBU</div>
+            <h2 style="color: var(--dbu-blue);">እንኳን ደህና መጡ!</h2>
+            <p style="margin: 10px 0 20px; font-size: 13px;">ወደ DBUMMC ፖርታል ይግቡ</p>
+            <input type="text" placeholder="Student ID / Email">
+            <input type="password" placeholder="Password">
+            <button class="btn-action" onclick="enterDashboard()">LOGIN</button>
+            <p style="margin-top:20px; font-size:11px; color:#999; cursor:pointer;" onclick="adminLogin()">Admin Access (ለዘየደ ብቻ)</p>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD (Zeyede's Original Design) -->
+    <div id="main-dashboard">
+        <header>
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div style="width:50px; height:50px; background:var(--dbu-blue); border-radius:50%; color:var(--gold); display:flex; justify-content:center; align-items:center; font-weight:bold; border:1px solid var(--gold); font-size:12px;">DBUMMC</div>
+                <div><h1 style="font-size:14px; color:var(--dbu-blue);">DBU MEHAL MEDA CAMPUS</h1><p style="font-size:10px; font-weight:bold; color:var(--cbe-purple);">Student Union Share Company</p></div>
+            </div>
+            <div style="text-align:right;">
+                <button onclick="openNetwork()" style="background:var(--gold); color:black; border:none; padding:8px 15px; border-radius:50px; font-weight:bold; cursor:pointer; font-size:11px;">
+                    <i class="fas fa-network-wired"></i> NEXT WINDOW: PARTNERS
+                </button>
+                <p style="font-size:10px; margin-top:5px;">Founder: <strong>Zeyede Yiman</strong></p>
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- Stats -->
+            <div class="corridor" style="background: var(--dbu-blue); color: white; display: flex; justify-content: space-around; text-align: center; border-bottom: 5px solid var(--gold);">
+                <div><h2>30,000+</h2><p>Members</p></div>
+                <div><h2>3</h2><p>Campuses</p></div>
+                <div><h2>50+</h2><p>Depts</p></div>
+                <div><h2>100%</h2><p>Digital</p></div>
+            </div>
+
+            <!-- Dept Wings -->
+            <div class="corridor">
+                <h3 class="title-line">የዲፓርትመንት ክፍሎች (Department Wings)</h3>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:15px; text-align:center;">
+                    <div style="padding:15px; background:#f9f9f9; border-radius:12px; border:1px solid #eee;">Software Eng.</div>
+                    <div style="padding:15px; background:#f9f9f9; border-radius:12px; border:1px solid #eee;">Medicine</div>
+                    <div style="padding:15px; background:#f9f9f9; border-radius:12px; border:1px solid #eee;">Agro Econ.</div>
+                    <div style="padding:15px; background:#f9f9f9; border-radius:12px; border:1px solid #eee;">AI Tech</div>
+                </div>
+                <button class="btn-action" style="margin-top:25px; background:var(--wine);">የአባልነት ምዝገባ ፎርም (Sign Up)</button>
+            </div>
+        </div>
+
+        <footer>
+            <div style="text-align:center;">
+                <p>Founder: Zeyede Yiman Albsewu | 📞 +251914917341</p>
+                <p style="font-size:11px; margin-top:15px; opacity:0.6;">© 2026 DBUMMC STUDENT UNION. OFFICIAL PORTAL.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- NEXT WINDOW: PARTNER NETWORK (Hidden Initially) -->
+    <div id="network-window">
+        <button class="btn-close-net" onclick="closeNetwork()">ዝጋ (Close Window) <i class="fas fa-times-circle"></i></button>
+        <h2 style="color: var(--dbu-blue); text-align: center; font-size: 2rem;">ዩኒቨርሳል የአጋር ማህበራት እና ባንኮች መድረክ</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 40px;">ሌሎች የተማሪዎች አክሲዮን ማህበራት እና የፋይናንስ ተቋማት ትስስር</p>
+
+        <div class="network-grid">
+            <!-- Partner 1 -->
+            <div class="network-card">
+                <i class="fas fa-university" style="font-size: 50px; color: var(--cbe-purple);"></i>
+                <h3 style="margin-top: 20px;">የኢትዮጵያ ንግድ ባንክ (CBE)</h3>
+                <p style="font-size: 13px; color: #777; margin: 15px 0;">የማህበሩ ብቸኛ የክፍያ እና የፋይናንስ አጋር</p>
+                <div style="background: #e8f5e9; color: #2e7d32; padding: 10px; border-radius: 50px; font-size: 12px; font-weight: bold;">CONNECTED <i class="fas fa-check-circle"></i></div>
+            </div>
+            <!-- Partner 2 -->
+            <div class="network-card">
+                <i class="fas fa-users-cog" style="font-size: 50px; color: var(--dbu-blue);"></i>
+                <h3 style="margin-top: 20px;">DBU Agri-Share Union</h3>
+                <p style="font-size: 13px; color: #777; margin: 15px 0;">የግብርና ካምፓስ ተማሪዎች አክሲዮን ማህበር</p>
+                <button class="btn-action" style="padding: 8px; font-size: 12px;">መረጃውን ተመልከት (View Stats)</button>
+            </div>
+            <!-- Partner 3 -->
+            <div class="network-card">
+                <i class="fas fa-globe-africa" style="font-size: 50px; color: var(--gold);"></i>
+                <h3 style="margin-top: 20px;">Shared Student Market</h3>
+                <p style="font-size: 13px; color: #777; margin: 15px 0;">የተማሪዎች የጋራ የንግድ እና የኢንቨስትመንት መድረክ</p>
+                <div style="background: #fff3e0; color: #ef6c00; padding: 10px; border-radius: 50px; font-size: 12px; font-weight: bold;">COMING SOON...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function enterDashboard() {
+            document.getElementById('auth-overlay').style.display = 'none';
+            document.getElementById('main-dashboard').style.display = 'block';
+        }
+
+        // NEXT WINDOW LOGIC
+        function openNetwork() {
+            document.getElementById('network-window').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // ዋናው ገጽ እንዳይንቀሳቀስ
+        }
+
+        function closeNetwork() {
+            document.getElementById('network-window').style.display = 'none';
+            document.body.style.overflow = 'auto'; // ወደ ዋናው ገጽ መመለስ
+        }
+
+        function adminLogin() {
+            let p = prompt("Admin Network Password:");
+            if(p === "zeyede2026") { enterDashboard(); openNetwork(); }
+        }
+    </script>
+</body>
+</html>
